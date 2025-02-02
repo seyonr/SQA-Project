@@ -1,0 +1,20 @@
+Welcome to the banking system!
+Do you want to login or exit :
+Do you want to login in as admin or standard : 
+Enter account number : 
+Logged in as admin!
+
+What do you want to do today?
+W – Withdrawal 
+T – Transfer
+P – Paybill
+D – Deposit
+C – Create
+DE – Delete
+DI – Disable 
+CH – Change Plan
+L – Logout 
+
+Please enter the account number of the account to delete :
+Please enter the account name of the account to delete : 
+Invalid account name, session terminated! 

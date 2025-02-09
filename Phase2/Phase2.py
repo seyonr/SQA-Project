@@ -81,7 +81,6 @@ class Withdrawal:
                     if restart_input.lower() != "yes":
                         break
                             
-
                 elif(not(from_num in accounts)): # Handles incorrect account number
                     print("Invalid account number, session terminated!")
                     exit()
@@ -94,19 +93,82 @@ class Withdrawal:
             else:
                 withdrawal_amount = int(input("How much would you like to withdraw : "))
 
-                if(withdrawal_amount > 500):
+                if(withdrawal_amount > 500): # Handles standard user limit
                     print("Standard users can’t withdraw above 500, session terminated!")
                     exit()
-                elif(withdrawal_amount > accounts[self.current_user].balance):
+                elif(withdrawal_amount > accounts[self.current_user].balance): # Handles insufficient balance
                     print("Insufficient balance, session terminated!")
                     exit()
-                else:
+                else: # Handles sucessful withdrawal
                     # This line will be replaced with what will happen in the backend
                         print("Withdrawal successful for backend!")
 
-                restart_input = input("Would you like to make another withdrawal? (yes/no): ").strip().lower()
+                restart_input = input("Would you like to make another withdrawal : ").strip().lower()
                 if restart_input.lower() != "yes":
                     break
+
+# Class which handles transfer
+class Transfer:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    def process(self):
+        while True:
+            # Handles admin transfer
+            if(accounts[self.current_user].account_type == "admin"):
+                from_num = int(input("Please enter the account number you want to transfer from : "))
+                from_name = input("Please enter the account name you want to transfer from : ")
+                to_num = int(input("Please enter the account number you want to transfer to : "))
+
+                if((from_num in accounts) and (accounts[from_num].name == from_name) and (to_num in accounts)): # Handles successful admin input
+                    transfer_amount = int(input("How much would you like to transfer : "))
+
+                    if(transfer_amount > accounts[from_num].balance): # Handles insufficient balance
+                        print("Insufficient balance, session terminated!")
+                        exit()
+                    else: # Handles sucessful transfer, will be used by backend
+                        print("Transfer successful for backend")
+                
+                    # Handles another transfer request
+                    restart_input = input("Transfer successful, would you like to to make another transfer : ").strip().lower()
+                    if restart_input.lower() != "yes":
+                        break
+                
+                elif(not(from_num in accounts) or not(to_num in accounts)): # Handles incorrect account number
+                    print("Invalid account number, session terminated!")
+                    exit()
+
+                else: # Handles incorrect account name
+                    print("Invalid account name, session terminated!")
+                    exit()
+
+            # Handles standard transfer
+            else:
+                to_num = int(input("Please enter the account number you want to transfer to : "))
+
+                if(to_num in accounts): # Handles correct transfer account number
+                    transfer_amount = int(input("How much would you like to transfer : "))
+
+                    if(transfer_amount > 1000): # Handles standard user limit
+                        print("Standard users can’t transfer above 1000! ")
+                        exit()
+                    elif(transfer_amount > accounts[self.current_user].balance): # Handles insufficient balance
+                        print("Insufficient balance, session terminated!")
+                        exit()
+                    else: # Handles sucessful transfer
+                        print("Transfer successful for backend")
+                    
+                    # Handles another transfer request 
+                    restart_input = input("Transfer successful, would you like to to make another transfer : ").strip().lower()
+                    if restart_input.lower() != "yes":
+                        break
+
+                else: # Handles incorrect transfer account number
+                    print("Invalid account number, session terminated!")
+                    exit()
+
+
 
 
 # Class which handles overall bank system
@@ -138,10 +200,14 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
+
+                    elif action == "t": # Transfer handle
+                        transfer_instance = Transfer(self.current_account)
+                        transfer_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

@@ -287,6 +287,40 @@ class Deposit:
 
 
 
+# Class which handles creating accounts
+class Create:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    def process(self):
+        while True:
+            # Handles admin creating account 
+            if(accounts[self.current_user].account_type == "admin"):
+                new_num = int(input("Please enter a new account number : "))
+                new_name = input("Please enter a new account name : ")
+                initial_balance = float(input("Please enter initial balance : "))
+
+                if(new_num in accounts): # Handles duplicate account number
+                    print("Duplicate account number, session terminated!")
+                    exit()
+                elif(len(new_name) > 20): # Handles name longer than 20 characters
+                    print("Account name can’t be longer than 20 characters, session terminated!")
+                    exit()
+                elif(initial_balance > 99999.99): # Handles balance set above $99999.99
+                    print("Balance can’t be above $99999.99, session terminated!")
+                    exit()
+                else: # Handles successful creation of account
+                    print("New account created successfully, session terminated!") # This will be replaced with backend logic
+                    exit()
+
+            # Handles standard creating account 
+            else:
+                print("Permission denied, session terminated!")
+                exit()
+
+
+
 
 
 # Class which handles overall bank system
@@ -318,7 +352,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -334,6 +368,9 @@ class BankSystem:
                     elif action == "d":
                         deposit_instance = Deposit(self.current_account)
                         deposit_instance.process()
+                    elif action == "c":
+                        create_instance = Create(self.current_account)
+                        create_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

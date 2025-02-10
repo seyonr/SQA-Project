@@ -77,8 +77,7 @@ class Withdrawal:
                         print("Insufficient balance, session terminated!")
                         exit()
                     else: # Handles successful withdrawal
-                        # This line will be replaced with what will happen in the backend
-                        print("Withdrawal successful for backend!")
+                        print("Withdrawal successful for backend!") # This will be replaced with backend logic
                     
                     # This will handle another withdrawal input from user
                     restart_input = input("Would you like to make another withdrawal : ").strip().lower()
@@ -104,8 +103,7 @@ class Withdrawal:
                     print("Insufficient balance, session terminated!")
                     exit()
                 else: # Handles sucessful withdrawal
-                    # This line will be replaced with what will happen in the backend
-                        print("Withdrawal successful for backend!")
+                        print("Withdrawal successful for backend!") # This will be replaced with backend logic
 
                 restart_input = input("Would you like to make another withdrawal : ").strip().lower()
                 if restart_input.lower() != "yes":
@@ -134,8 +132,8 @@ class Transfer:
                     if(transfer_amount > accounts[from_num].balance): # Handles insufficient balance
                         print("Insufficient balance, session terminated!")
                         exit()
-                    else: # Handles sucessful transfer, will be used by backend
-                        print("Transfer successful for backend")
+                    else: # Handles sucessful transfer
+                        print("Transfer successful for backend") # This will be replaced with backend logic
                 
                     # Handles another transfer request
                     restart_input = input("Transfer successful, would you like to to make another transfer : ").strip().lower()
@@ -164,7 +162,7 @@ class Transfer:
                         print("Insufficient balance, session terminated!")
                         exit()
                     else: # Handles sucessful transfer
-                        print("Transfer successful for backend")
+                        print("Transfer successful for backend") # This will be replaced with backend logic
                     
                     # Handles another transfer request 
                     restart_input = input("Transfer successful, would you like to to make another transfer : ").strip().lower()
@@ -199,7 +197,7 @@ class Paybill:
                             print("Insufficient balance, session terminated!")
                             exit()
                         else: # Handles sucessful transfer
-                            print("Payment successful for backend ")
+                            print("Payment successful for backend ") # This will be replaced with backend logic
 
                         # Handles another payment request 
                         restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
@@ -229,7 +227,7 @@ class Paybill:
                         print("Insufficient balance, session terminated!")
                         exit()
                     else: # Handles sucessful transfer
-                        print("Payment successful for backend ")
+                        print("Payment successful for backend ") # This will be replaced with backend logic
 
                     # Handles another payment request 
                     restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
@@ -259,17 +257,18 @@ class Deposit:
                 if((from_num in accounts) and (accounts[from_num].name == from_name)): # Handles successful input
                     deposit_amount = int(input("How much would you like to deposit : "))
                     
-                    print("Deposit successful for backend:")
+                    print("Deposit successful for backend:") # This will be replaced with backend logic
 
+                    # Handles another deposit request
                     restart_input = input("Deposit successful, would you like to to make another deposit :  ").strip().lower()
                     if restart_input.lower() != "yes":
                         print("Logged out!")
                         print("Have a great day, see you soon!")
                         exit()
-                elif(not(from_num in accounts)):
+                elif(not(from_num in accounts)): # Handles incorrect account number
                     print("Invalid account number, session terminated!")
                     exit()
-                else:
+                else: # Handles incorrect account name
                     print("Invalid account name, session terminated!")
                     exit()
 
@@ -277,8 +276,9 @@ class Deposit:
             else:
                 deposit_amount = int(input("How much would you like to deposit : "))
 
-                print("Deposit successful for backend:")
+                print("Deposit successful for backend:") # This will be replaced with backend logic
 
+                # Handles another deposit request
                 restart_input = input("Deposit successful, would you like to to make another deposit :  ").strip().lower()
                 if restart_input.lower() != "yes":
                     print("Logged out!")

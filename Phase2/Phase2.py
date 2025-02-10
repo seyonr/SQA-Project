@@ -14,6 +14,8 @@ accounts = {
     54321: Account(54321, "admin", 99999, "admin")
 }
 
+
+
 # Class which handles login
 class Login:
     # Constructor 
@@ -51,7 +53,9 @@ class Login:
         else: # Handles unexpected error for login
             print("Error with login, session terminated!")
             return False
-        
+
+
+
 # Class which handles withdrawal
 class Withdrawal:
     # Constructor 
@@ -77,7 +81,7 @@ class Withdrawal:
                         print("Withdrawal successful for backend!")
                     
                     # This will handle another withdrawal input from user
-                    restart_input = input("Would you like to make another withdrawal? (yes/no): ").strip().lower()
+                    restart_input = input("Would you like to make another withdrawal : ").strip().lower()
                     if restart_input.lower() != "yes":
                         break
                             
@@ -106,6 +110,8 @@ class Withdrawal:
                 restart_input = input("Would you like to make another withdrawal : ").strip().lower()
                 if restart_input.lower() != "yes":
                     break
+
+
 
 # Class which handles transfer
 class Transfer:
@@ -170,6 +176,70 @@ class Transfer:
 
 
 
+# Class which handles paybill
+class Paybill:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    def process(self):
+        while True:
+            # Handles admin paybill
+            if(accounts[self.current_user].account_type == "admin"):
+                from_num = int(input("Please enter the account number you want to transfer from : "))
+                from_name = input("Please enter the account name you want to transfer from : ")
+
+                if((from_num in accounts) and (accounts[from_num].name == from_name)): # Handles successful admin input
+                    payee = input("Please select the payee you want to pay the bill to:\nEC - The Bright Light Electric Company\nCQ - Credit Card Company Q\nFI - Fast Internet, Inc.\n").strip().lower()
+                    if((payee == "ec") or (payee == "cq") or (payee == "fi")): # Handles sucessfull payee selection 
+                        pay_amount = int(input("How much would you like to pay : "))
+                        if(pay_amount > accounts[from_num].balance): # Handles insufficient balance
+                            print("Insufficient balance, session terminated!")
+                            exit()
+                        else: # Handles sucessful transfer
+                            print("Payment successful for backend: ")
+
+                        # Handles another payment request 
+                        restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
+                        if restart_input.lower() != "yes":
+                            break
+
+                    else: # Handles invalid payee selection 
+                        print("Invalid payee, session terminated!")
+                        exit()
+                elif(not(from_num in accounts)): # Handles incorrect account number
+                    print("Invalid account number, session terminated!")
+                    exit()
+                else: # Handles incorrect account name
+                    print("Invalid account name, session terminated!")
+                    exit()
+
+            # Handles standard paybill
+            else:
+                payee = input("Please select the payee you want to pay the bill to:\nEC - The Bright Light Electric Company\nCQ - Credit Card Company Q\nFI - Fast Internet, Inc.\n").strip().lower()
+                
+                if((payee == "ec") or (payee == "cq") or (payee == "fi")): # Handles sucessfull payee selection 
+                    pay_amount = int(input("How much would you like to pay : "))
+                    if(pay_amount > 2000): # Handles standard user limit
+                        print("Standard users can’t pay bills above 2000! ")
+                        exit()
+                    elif(pay_amount > accounts[self.current_user].balance): # Handles insufficient balance
+                        print("Insufficient balance, session terminated!")
+                        exit()
+                    else: # Handles sucessful transfer
+                        print("Payment successful for backend: ")
+
+                    # Handles another payment request 
+                    restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
+                    if restart_input.lower() != "yes":
+                        break
+                
+                else: # Handles invalid payee selection 
+                    print("Invalid payee, session terminated!")
+                    exit()
+                
+
+
 
 # Class which handles overall bank system
 class BankSystem:
@@ -200,7 +270,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -208,6 +278,10 @@ class BankSystem:
                     elif action == "t": # Transfer handle
                         transfer_instance = Transfer(self.current_account)
                         transfer_instance.process()
+
+                    elif action == "p":
+                        paybill_instance  = Paybill(self.current_account)
+                        paybill_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

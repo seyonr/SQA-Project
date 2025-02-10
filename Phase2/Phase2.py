@@ -293,6 +293,7 @@ class Create:
     def __init__(self, current_user):
         self.current_user = current_user
 
+    # Function to process create
     def process(self):
         while True:
             # Handles admin creating account 
@@ -318,6 +319,37 @@ class Create:
             else:
                 print("Permission denied, session terminated!")
                 exit()
+
+
+
+# Class which handles deleting accounts
+class Delete:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    # Function to process delete
+    def process(self):
+        while True:
+            # Handles admin delete
+            if(accounts[self.current_user].account_type == "admin"):
+                delete_num = int(input("Please enter the account number of the account to delete : "))
+                delete_name = input("Please enter the account name of the account to delete : ")
+
+                if(not(delete_num in accounts)): # Handles incorrect account number
+                    print("Invalid account number, session terminated! ")
+                    exit()
+                elif(accounts[delete_num].name != delete_name): # Handles incorrect account name
+                    print("Invalid account name, session terminated! ")
+                    exit()
+                else: # Handles successful input
+                    print("Account deleted successfully, session terminated!") # This will be replaced with backend logic
+                    exit()
+            # Handles standard delete
+            else:
+                print("Permission denied, session terminated!")
+                exit()
+
 
 
 
@@ -352,7 +384,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nDE - Delete\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -371,6 +403,9 @@ class BankSystem:
                     elif action == "c":
                         create_instance = Create(self.current_account)
                         create_instance.process()
+                    elif action == "de":
+                        delete_instance = Delete(self.current_account)
+                        delete_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

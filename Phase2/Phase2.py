@@ -119,6 +119,7 @@ class Transfer:
     def __init__(self, current_user):
         self.current_user = current_user
 
+    # Function to process transfer
     def process(self):
         while True:
             # Handles admin transfer
@@ -182,6 +183,7 @@ class Paybill:
     def __init__(self, current_user):
         self.current_user = current_user
 
+    # Function to process paybill
     def process(self):
         while True:
             # Handles admin paybill
@@ -197,7 +199,7 @@ class Paybill:
                             print("Insufficient balance, session terminated!")
                             exit()
                         else: # Handles sucessful transfer
-                            print("Payment successful for backend: ")
+                            print("Payment successful for backend ")
 
                         # Handles another payment request 
                         restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
@@ -227,7 +229,7 @@ class Paybill:
                         print("Insufficient balance, session terminated!")
                         exit()
                     else: # Handles sucessful transfer
-                        print("Payment successful for backend: ")
+                        print("Payment successful for backend ")
 
                     # Handles another payment request 
                     restart_input = input("Payment successful, would you like to to make another payment : ").strip().lower()
@@ -237,7 +239,53 @@ class Paybill:
                 else: # Handles invalid payee selection 
                     print("Invalid payee, session terminated!")
                     exit()
+
+
+
+# Class which handles deposit
+class Deposit:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    # Function to process deposit
+    def process(self):
+        while True:
+            # Handles admin deposit
+            if(accounts[self.current_user].account_type == "admin"):
+                from_num = int(input("Please enter the account number you want to deposit to : "))
+                from_name = input("Please enter the account name you want to deposit to : ")
                 
+                if((from_num in accounts) and (accounts[from_num].name == from_name)): # Handles successful input
+                    deposit_amount = int(input("How much would you like to deposit : "))
+                    
+                    print("Deposit successful for backend:")
+
+                    restart_input = input("Deposit successful, would you like to to make another deposit :  ").strip().lower()
+                    if restart_input.lower() != "yes":
+                        print("Logged out!")
+                        print("Have a great day, see you soon!")
+                        exit()
+                elif(not(from_num in accounts)):
+                    print("Invalid account number, session terminated!")
+                    exit()
+                else:
+                    print("Invalid account name, session terminated!")
+                    exit()
+
+            # Handles standard deposit
+            else:
+                deposit_amount = int(input("How much would you like to deposit : "))
+
+                print("Deposit successful for backend:")
+
+                restart_input = input("Deposit successful, would you like to to make another deposit :  ").strip().lower()
+                if restart_input.lower() != "yes":
+                    print("Logged out!")
+                    print("Have a great day, see you soon!")
+                    exit()
+
+
 
 
 
@@ -270,7 +318,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -282,6 +330,10 @@ class BankSystem:
                     elif action == "p":
                         paybill_instance  = Paybill(self.current_account)
                         paybill_instance.process()
+
+                    elif action == "d":
+                        deposit_instance = Deposit(self.current_account)
+                        deposit_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

@@ -351,6 +351,35 @@ class Delete:
                 exit()
 
 
+ 
+# Class which handles disable of accounts
+class Disable:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    def process(self):
+        while True:
+            # Handles admin disable 
+            if(accounts[self.current_user].account_type == "admin"):
+                disable_num = int(input("Please enter the account number of the account to disable : "))
+                disable_name = input("Please enter the account name of the account to disable : ")
+
+                if(not(disable_num in accounts)):  # Handles incorrect account number
+                    print("Invalid account number, session terminated! ")
+                    exit()
+                elif(accounts[disable_num].name != disable_name):  # Handles incorrect account name
+                    print("Invalid account name, session terminated! ")
+                    exit()
+                else: # Handles sucessful input
+                    print("Account disabled successfully, session terminated!") # This will be replaced with backend logic
+                    exit()
+            # Handles standard disable
+            else:
+                print("Permission denied, session terminated!")
+                exit()
+
+
 
 
 
@@ -384,7 +413,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nDE - Delete\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nDE - Delete\nDI - Disable\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -406,6 +435,9 @@ class BankSystem:
                     elif action == "de":
                         delete_instance = Delete(self.current_account)
                         delete_instance.process()
+                    elif action == "di":
+                        disable_instance = Disable(self.current_account)
+                        disable_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")
@@ -417,6 +449,7 @@ class BankSystem:
                         print("Invalid command.")
         else:
             print("Have a great day, see you soon!")
+
 
 if __name__ == "__main__":
     bank_system = BankSystem()

@@ -176,7 +176,7 @@ class Transfer:
 
 
 # Class which handles paybill
-class Paybill:
+class PayBill:
     # Constructor 
     def __init__(self, current_user):
         self.current_user = current_user
@@ -358,6 +358,7 @@ class Disable:
     def __init__(self, current_user):
         self.current_user = current_user
 
+    # Function to process disable 
     def process(self):
         while True:
             # Handles admin disable 
@@ -380,6 +381,33 @@ class Disable:
                 exit()
 
 
+
+# Class which handles changeplan
+class ChangePlan:
+    # Constructor 
+    def __init__(self, current_user):
+        self.current_user = current_user
+
+    # Function to process change plan
+    def process(self):
+        # Handles admin change plan
+        if(accounts[self.current_user].account_type == "admin"):
+            change_num = int(input("Please enter the account number of the account to change plan for : "))
+            change_name = input("Please enter the account name of the account to change plan for : ")
+
+            if(not(change_num in accounts)): # Handles incorrect account number
+                print("Invalid account number, session terminated!")
+                exit()
+            elif(accounts[change_num].name != change_name): # Handles incorrect account name
+                print("Invalid account name, session terminated!")
+                exit()
+            else: # Handles sucessful input
+                print("Account changed from student plan to non-student plan successfully, session terminated!") # This will be replaced with backend logic
+                exit()
+        # Handles standard changeplan
+        else:
+            print("Permission denied, session terminated!")
+            exit()
 
 
 
@@ -413,7 +441,7 @@ class BankSystem:
                 self.current_account = login_instance.current_user
                 
                 while True:
-                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nDE - Delete\nDI - Disable\nL – Logout\n").strip().lower()
+                    action = input("\nWhat do you want to do today?\nW – Withdrawal\nT - Transfer\nP - Paybill\nD - Deposit\nC - Create\nDE - Delete\nDI - Disable\nCH - Change Plan\nL – Logout\n").strip().lower()
                     if action == "w": # Withdrawal handle
                         withdrawal_instance = Withdrawal(self.current_account)
                         withdrawal_instance.process()
@@ -423,7 +451,7 @@ class BankSystem:
                         transfer_instance.process()
 
                     elif action == "p":
-                        paybill_instance  = Paybill(self.current_account)
+                        paybill_instance  = PayBill(self.current_account)
                         paybill_instance.process()
 
                     elif action == "d":
@@ -438,6 +466,9 @@ class BankSystem:
                     elif action == "di":
                         disable_instance = Disable(self.current_account)
                         disable_instance.process()
+                    elif action == "ch":
+                        change_instance = ChangePlan(self.current_account)
+                        change_instance.process()
                     
                     elif action == "l": # Logout handle
                         print("Logged out!")

@@ -354,6 +354,7 @@ class Delete:
  
 # Class which handles disable of accounts
 class Disable:
+
     # Constructor 
     def __init__(self, current_user):
         self.current_user = current_user
@@ -384,6 +385,7 @@ class Disable:
 
 # Class which handles changeplan
 class ChangePlan:
+    
     # Constructor 
     def __init__(self, current_user):
         self.current_user = current_user

@@ -105,6 +105,7 @@ class Withdrawal:
                 else: # Handles sucessful withdrawal
                         print("Withdrawal successful for backend!") # This will be replaced with backend logic
 
+                # Handles another withdrawal request
                 restart_input = input("Would you like to make another withdrawal : ").strip().lower()
                 if restart_input.lower() != "yes":
                     break
@@ -315,7 +316,7 @@ class Create:
                     print("New account created successfully, session terminated!") # This will be replaced with backend logic
                     exit()
 
-            # Handles standard creating account 
+            # Handles standard user trying to creating account 
             else:
                 print("Permission denied, session terminated!")
                 exit()
@@ -345,7 +346,7 @@ class Delete:
                 else: # Handles successful input
                     print("Account deleted successfully, session terminated!") # This will be replaced with backend logic
                     exit()
-            # Handles standard delete
+            # Handles standard user trying to delete
             else:
                 print("Permission denied, session terminated!")
                 exit()
@@ -354,7 +355,6 @@ class Delete:
  
 # Class which handles disable of accounts
 class Disable:
-
     # Constructor 
     def __init__(self, current_user):
         self.current_user = current_user
@@ -376,7 +376,7 @@ class Disable:
                 else: # Handles sucessful input
                     print("Account disabled successfully, session terminated!") # This will be replaced with backend logic
                     exit()
-            # Handles standard disable
+            # Handles standard user trying to disable
             else:
                 print("Permission denied, session terminated!")
                 exit()
@@ -385,7 +385,6 @@ class Disable:
 
 # Class which handles changeplan
 class ChangePlan:
-    
     # Constructor 
     def __init__(self, current_user):
         self.current_user = current_user
@@ -406,7 +405,7 @@ class ChangePlan:
             else: # Handles sucessful input
                 print("Account changed from student plan to non-student plan successfully, session terminated!") # This will be replaced with backend logic
                 exit()
-        # Handles standard changeplan
+        # Handles standard user trying to changeplan
         else:
             print("Permission denied, session terminated!")
             exit()

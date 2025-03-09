@@ -1,0 +1,25 @@
+Welcome to the banking system!
+Do you want to login or exit : 
+Enter login type (admin or standard): 
+Enter account number: 
+Enter account name: 
+Login successful!
+
+What do you want to do today?
+W – Withdrawal
+T - Transfer
+P - Paybill
+D - Deposit
+C - Create
+DE - Delete
+DI - Disable
+CH - Change Plan
+L – Logout
+How much would you like to deposit : 
+Deposit successful for backend:
+Deposit successful, would you like to to make another deposit :  
+How much would you like to deposit : 
+Deposit successful for backend:
+Deposit successful, would you like to to make another deposit :  
+Logged out!
+Have a great day, see you soon!

@@ -67,7 +67,7 @@ class Withdrawal:
         while True:
             # Handles admin withdrawal
             if(accounts[self.current_user].account_type == "admin"):
-                from_num = int(input("Please enter the account number you want to withdraw from : "))
+                from_num = int(input("Please enter the account number you want to withdraw from : ")) 
                 from_name = input("Please enter the account name you want to withdraw from : ")
 
                 if((from_num in accounts) and (accounts[from_num].name == from_name)): # Handles successful admin input
@@ -421,6 +421,7 @@ class BankSystem:
 
     # Main function to handle the bank system 
     def main(self):
+        print("Welcome to the banking system!")
         start_input = input("Do you want to login or exit : ").strip().lower()
         
         # Code to handle user wanting to login

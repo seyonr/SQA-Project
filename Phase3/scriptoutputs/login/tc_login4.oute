@@ -1,0 +1,6 @@
+Welcome to the banking system!
+Do you want to login or exit : 
+Enter login type (admin or standard): 
+Enter account number: 
+Enter account name: 
+Invalid account name, session terminated!
